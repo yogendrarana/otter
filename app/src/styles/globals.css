@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
+}
+
+:root{
+  /* height */
+  --h-nav: 100px;
+
+  /* padding */
+  --p-lg: 200px;
+  --p-md: 150px;
+  --p-sm: 100px;
+}

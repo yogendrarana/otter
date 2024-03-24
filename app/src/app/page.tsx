@@ -1,7 +1,9 @@
+import Banner from "@/components/home/banner";
+
 export default function Home() {
   return (
-    <main className="">
-      Welcome to Otter NFT
+    <main>
+      <Banner />
     </main>
   );
 }
