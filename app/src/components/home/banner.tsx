@@ -7,7 +7,6 @@ const Banner = () => {
         <Navbar />
 
         <div>
-            Banner
         </div>
     </>
   )

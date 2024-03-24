@@ -8,7 +8,7 @@ const Navbar = () => {
         <Link href='/' className='text-2xl font-bold tracking-wide'>Otter.</Link>
 
         <nav>
-            <ul className='flex gap-4'>
+            <ul className='flex gap-12'>
                 <li>
                     <Link href='/'>Home</Link>
                 </li>
