@@ -2,64 +2,48 @@
 
 import { toast } from 'sonner';
 import { Button } from '../ui/button'
-import React, { useEffect, useState } from 'react'
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '../ui/dialog';
 
+// wallets
+import { wallets } from '@/lib/wallets';
+
 export default function ConnectWallet() {
-    const [availableWallets, setAvailableWallets] = useState([]) as any[];
 
-    const wallets = [
-        { name: 'Phantom', detected: !!window?.solana },
-        { name: 'Sollet', detected: !!window?.sollet },
-        { name: 'SolFlare', detected: !!window?.solflare },
-    ];
-
-    const detectWallets = () => {
-        setAvailableWallets(wallets.filter((wallet) => wallet.detected));
-    }
-
-    const handleConnectWallet = (wallet:any) => {
-        if (wallet.detected) {
-            switch (wallet.name) {
-                case 'Phantom':
-                    window?.solana.connect();
-                    break;
-                case 'Sollet':
-                    window?.sollet.connect();
-                    break;
-                case 'SolFlare':
-                    window?.solflare.connect();
-                    break;
-                default:
-                    alert('Wallet not supported');
-            }
+    const handleConnectWallet = async (wallet: any) => {
+        if (!wallet.detected) {
+            toast.error(`${wallet.name} wallet not found. Please add it first.`);
+            return;
         }
 
+        try {
+            let connection;
+            connection = await wallet.wallet.connect();
+            console.log('Connected to wallet:', connection);
+        } catch (error) {
+            console.error('Error connecting to wallet:', error);
+        }
     };
-
-    useEffect(() => {
-        detectWallets();
-    }, []);
 
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button>Connect Wallet</Button>
+                <Button variant={"secondary"} className='bg-blue-500 text-white hover:bg-blue-600' >Connect Wallet</Button>
             </DialogTrigger>
 
             <DialogContent className='flex flex-col'>
                 <DialogTitle>Available Wallets</DialogTitle>
-
                 <div className='flex flex-col gap-1'>
-                    {availableWallets.map((wallet: any) => (
-                        <Button
-                            key={wallet.name}
-                            variant={"secondary"}
-                            onClick={() => handleConnectWallet(wallet)}
-                        >
-                            {wallet.name}
-                        </Button>
-                    ))}
+                    {
+                        wallets.map((wallet: any) => (
+                            <Button
+                                key={wallet.name}
+                                variant={"secondary"}
+                                onClick={() => handleConnectWallet(wallet)}
+                            >
+                                {wallet.name}
+                            </Button>
+                        ))
+                    }
                 </div>
             </DialogContent>
         </Dialog>
